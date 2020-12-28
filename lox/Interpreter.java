@@ -96,6 +96,17 @@ class Interpreter implements Expr.Visitor<Object> {
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left - (double)right;
             case PLUS:
+                if (left instanceof String || right instanceof String) {
+                    String stringL = left.toString();
+                    String stringR = right.toString();
+                    if (stringL.endsWith(".0")) {
+                        stringL = stringL.substring(0, stringL.length() - 2);
+                    }
+                    if (stringR.endsWith(".0")) {
+                        stringR = stringR.substring(0, stringR.length() - 2);
+                    }
+                    return stringL + stringR;
+                }
                 if (left instanceof Double && right instanceof Double) {
                     return (double)left + (double)right;
                 }
